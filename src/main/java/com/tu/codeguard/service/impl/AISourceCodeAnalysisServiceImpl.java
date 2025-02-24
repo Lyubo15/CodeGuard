@@ -1,6 +1,7 @@
 package com.tu.codeguard.service.impl;
 
 import com.tu.codeguard.dto.AIAnalysisResultDTO;
+import com.tu.codeguard.enums.PromptOption;
 import com.tu.codeguard.exceptions.FileReadException;
 import com.tu.codeguard.service.AIProviderService;
 import com.tu.codeguard.service.AISourceCodeAnalysisService;
@@ -27,12 +28,22 @@ public class AISourceCodeAnalysisServiceImpl implements AISourceCodeAnalysisServ
    // private final S3Service s3Service;
 
     @Override
-    public AIAnalysisResultDTO analyzeSourceCode(ZipInputStream zip, String filename, UUID correlationId) {
+    public AIAnalysisResultDTO analyzeSourceCode(
+            ZipInputStream zip,
+            List<PromptOption> promptOptions,
+            String filename,
+            UUID correlationId)
+    {
         try (zip) {
             log.info("Start analyzing source code from file {} with correlationId {}", filename, correlationId);
             Map<String, String> sourceCode = zipService.readSourceCode(zip);
             String combinedCode = mergeSourceCode(sourceCode);
-            AIAnalysisResultDTO result = sendToAIWithTokenManagement(combinedCode, filename, correlationId);
+
+            String prompts = (promptOptions != null && !promptOptions.isEmpty())
+                    ? PromptsUtils.combinePromptsFromOptions(promptOptions)
+                    : PromptsUtils.getPrompts();
+
+            AIAnalysisResultDTO result = sendToAIWithTokenManagement(combinedCode, prompts, filename, correlationId);
             log.info("Completed analysis of file {} with correlationId {}", filename, correlationId);
             return result;
         } catch (IOException e) {
@@ -56,13 +67,12 @@ public class AISourceCodeAnalysisServiceImpl implements AISourceCodeAnalysisServ
     /**
      * Sends source code to OpenAI while ensuring we stay within token limits.
      */
-    private AIAnalysisResultDTO sendToAIWithTokenManagement(String fullCode, String filename, UUID correlationId) {
+    private AIAnalysisResultDTO sendToAIWithTokenManagement(String fullCode, String prompts, String filename, UUID correlationId) {
         AIAnalysisResultDTO aiAnalysisResult = AIAnalysisResultDTO.builder()
                 .result(new StringBuilder())
                 .build();
 
         int tokenCount = aiProviderService.getTokens(fullCode);
-        String prompts = PromptsUtils.getPrompts();
 
         if (tokenCount <= aiProviderService.getMaxTokens()) {
             log.info("Sending full code to AI for analysis...");

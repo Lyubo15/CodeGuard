@@ -1,7 +1,9 @@
 package com.tu.codeguard.service;
 
 import com.tu.codeguard.dto.AIAnalysisResultDTO;
+import com.tu.codeguard.enums.PromptOption;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.zip.ZipInputStream;
 
@@ -14,5 +16,5 @@ public interface AISourceCodeAnalysisService {
      * @param filename is the source code file name
      * @return StringBuilder - analysis result
      */
-    AIAnalysisResultDTO analyzeSourceCode(ZipInputStream zip, String filename, UUID correlationId);
+    AIAnalysisResultDTO analyzeSourceCode(ZipInputStream zip, List<PromptOption> promptOptions, String filename, UUID correlationId);
 }
