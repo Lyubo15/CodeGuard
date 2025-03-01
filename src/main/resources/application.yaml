@@ -5,30 +5,45 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+  datasource:
+    url: jdbc:postgresql://localhost:5332/codeguard
+    username: username
+    password: secret123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        default_schema: codeguard
+    show-sql: true
+  liquibase:
+    enabled: true
+    url: jdbc:postgresql://localhost:5332/codeguard
+    default-schema: codeguard
+    change-log: classpath:db/changelog/changelog.sql
+    driver-class-name: org.postgresql.Driver
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+  docker:
+    compose:
+      enabled: false
 
 server:
   port: 9100
 
 application:
   basicauth:
-    username: user
+    username: admin
     password: pass
     swagger:
-      username: admin
+      username: user
       password: pass
   cors:
     allowed:
       - http://localhost:3000
-  management:
-    server:
-      port: 9101
-    endpoints:
-      web:
-        exposure:
-          include:
-            - health
-            - info
-            - prometheus
   clamav:
     enabled: false
     host: localhost

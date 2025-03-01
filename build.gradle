@@ -24,21 +24,21 @@ repositories {
 }
 
 dependencies {
+	// Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-	// Keep Logback (Spring Boot's default logging)
-	implementation 'ch.qos.logback:logback-classic'
+	// Database
+	implementation 'org.liquibase:liquibase-core'
+	runtimeOnly 'org.postgresql:postgresql'
 
 	// SLF4J API (needed for logging)
 	implementation 'org.slf4j:slf4j-api'
+	implementation 'ch.qos.logback:logback-classic'
 
-	// Remove conflicting SLF4J bindings
-	configurations.all {
-		exclude group: 'org.slf4j', module: 'slf4j-simple'
-	}
-
-	// Lombok (for reducing boilerplate code)
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
@@ -46,10 +46,10 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-	// OpenAI integration
+	// OpenAI
 	implementation 'io.github.sashirestela:simple-openai:3.18.0'
 
-	// OpenAPI documentation
+	// OpenAPI
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5'
 
 	// ClamAV integration

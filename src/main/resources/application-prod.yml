@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://awseb-e-qtfv8pfymu-stack-awsebrdsdatabase-4qlbuttxojyv.cjq8mmi0sxdm.us-east-1.rds.amazonaws.com:5432/barbershop
+  liquibase:
+    url: jdbc:postgresql://awseb-e-qtfv8pfymu-stack-awsebrdsdatabase-4qlbuttxojyv.cjq8mmi0sxdm.us-east-1.rds.amazonaws.com:5432/barbershop
