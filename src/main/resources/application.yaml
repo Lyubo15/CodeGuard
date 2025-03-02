@@ -48,7 +48,9 @@ application:
     endpoints:
       web:
         exposure:
-          include: "*"
+          include:
+            - health
+            - info
   clamav:
     enabled: false
     host: localhost
