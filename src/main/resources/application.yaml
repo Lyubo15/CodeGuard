@@ -32,7 +32,7 @@ spring:
       enabled: false
 
 server:
-  port: 9100
+  port: 8080
 
 application:
   basicauth:
@@ -44,6 +44,11 @@ application:
   cors:
     allowed:
       - http://localhost:3000
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
   clamav:
     enabled: false
     host: localhost

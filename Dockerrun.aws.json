@@ -2,8 +2,8 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "backend-api",
-      "image": "lyubomir15/barbershop-api:latest",
+      "name": "code-guard-api",
+      "image": "lyubomir15/code-guard-api:latest",
       "essential": true,
       "memory": 512,
       "portMappings": [
