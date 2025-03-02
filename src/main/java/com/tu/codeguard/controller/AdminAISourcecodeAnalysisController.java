@@ -20,7 +20,7 @@ import java.util.zip.ZipInputStream;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/admin/ai-analysis")
+@RequestMapping("/ai-analysis")
 @Tag(name = "AI Sourcecode Analysis Controller", description = "Endpoints handling admin operations for AI sourcecode analysis")
 public class AdminAISourcecodeAnalysisController {
 
