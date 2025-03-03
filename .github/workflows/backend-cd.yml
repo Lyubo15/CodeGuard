@@ -57,6 +57,8 @@ jobs:
           echo "Dockerrun.aws.json before updating tag"
           cat Dockerrun.aws.json
           sed -i -E 's_(lyubomir15/code-guard-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
+          sed -i 's/%DATASOURCE_USERNAME%/${{ secrets.DATASOURCE_USERNAME }}/g' Dockerrun.aws.json
+          sed -i 's/%DATASOURCE_PASSWORD%/${{ secrets.DATASOURCE_PASSWORD }}/g' Dockerrun.aws.json
           echo "Dockerrun.aws.json after updating tag"
           cat Dockerrun.aws.json
       - name: Deploy to Elastic Beanstalk
