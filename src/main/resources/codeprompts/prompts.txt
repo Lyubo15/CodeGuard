@@ -1,31 +1,31 @@
 Please review the code by following these prompts:
-1. Imagine you are a senior software engineer. Let's step by step review the code.
-2. Аs a technical interviewer, show me the bad and the good parts of the code regarding best practices and fundamental programming skills.
-3. Evaluate the code at what level it is written. Junior, Mid or Senior Developer.
-4. Score the codebase on clean code from 1/5 with a few examples of why (is the naming good, is there proper logging).
-5. From 1 to 5 with a few examples of why (are modern language features used, is a popular framework used, are framework best practices followed).
-6. Evaluate the usage of design patterns in the codebase and check for any code smell and anti-patterns.
-7. Check if the code adheres to the DRY (Don't Repeat Yourself) principle.
-8. Identify potential memory leaks or resource management issues and check for performance optimizations and potential bottlenecks.
-9. Evaluate error-handling mechanisms and suggestions for improvement.
-10. Assess adherence to SOLID principles of object-oriented design and rate code maintainability.
-11. Check for hard-coded values.
-12. Assess compliance with platform-specific coding guidelines (e.g., Coding Style).
-13. Is there redundancy in code, and can it be refactored to eliminate duplication?
-14. How are dependencies mocked or stubbed in unit tests for isolation?
-15. How well is the code designed for scalability, and is it ready to accommodate growth in data or traffic?
-16. How extensible is the code? Can new features or components be added with minimal impact on existing code?
-17. Is the code handle asynchronous operations effectively, such as callbacks, promises, or async/await?
-18. If using a specific framework or library, ensure adherence to its best practices and guidelines.
-19. Review the structure of test classes and test resources. Are tests organized alongside the production code, do they cover different scenarios, and do they follow a consistent naming convention (e.g., Test class names ending with "Test")?
-20. Is the component modular, promoting re-usability in different parts of the application?
-21. Are there clear boundaries between this component and other components?
-22. How is the component's state managed? Does it use local state, context, or Redux (if applicable)?
-23. Is the state properly initialized, updated, and cleaned up as needed?
-24. Are lifecycle methods or lifecycle hooks used appropriately (e.g., componentDidMount in React or ngOnInit in Angular)?
-25. Is there proper handling of component unmounting and cleanup (if applicable)?
-26. Has the code been documented? (Yes/No)
-27. Evaluate the design of RESTful endpoints in the controller. Are the endpoints well-structured and follow REST conventions (e.g., proper use of HTTP methods, resource naming)? If there is noting about controller just return N/A
-28. Review the usage of dependency injection. Are dependencies injected through constructor injection, setter injection, or field injection? Are there circular dependencies?
+
+1. General Code Review: Conduct a step-by-step review of the code, highlighting strengths, weaknesses, and areas for improvement, and provide an overall quality summary.
+2. Best Practices: Analyze the code as a technical interviewer, identifying best practices followed and fundamental programming violations.
+3. Developer Level Assessment: Evaluate whether the code is written at a Junior, Mid, or Senior level, with justification based on complexity, readability, and maintainability.
+4. Clean Code Score: Score the code from 1 to 10 based on naming conventions, logging, formatting, and clarity, with examples of well-written and poorly-written parts.
+5. Modern Features: Assess the usage of modern language features, framework capabilities, and best practices to determine if up-to-date coding techniques are applied.
+6. Design Patterns & Code Smells: Identify and evaluate the usage of design patterns, detect code smells, and highlight any anti-patterns.
+7. DRY Principle: Check if the code adheres to the DRY (Don't Repeat Yourself) principle by identifying unnecessary duplication and suggesting refactoring opportunities.
+8. Performance & Optimization: Identify potential memory leaks, inefficient loops, unoptimized queries, and suggest performance improvements.
+9. Error Handling: Evaluate how errors are handled (try-catch, logging, fail-safe mechanisms) and suggest improvements for robustness and clarity.
+11. SOLID Principles: Assess adherence to SOLID principles and overall maintainability, providing a score based on maintainability and good design practices.
+12. Hard-Coded Values: Identify any hard-coded values that should be parameterized or extracted into configurations for better flexibility.
+13. Platform-Specific Guidelines: Check if the code follows platform-specific best practices for languages and frameworks such as Java, .NET, Python, or React.
+14. Redundancy & Refactoring: Detect redundant code and suggest refactoring opportunities to improve efficiency and maintainability.
+15. Unit Testing & Mocking: Review unit test coverage, structure, and mocking/stubbing practices to ensure effective test isolation.
+16. Scalability Readiness: Evaluate how well the code is designed to handle increasing data, traffic, and concurrent user load.
+17. Extensibility: Assess whether new features can be added with minimal impact, identifying rigid parts that may hinder future expansion.
+18. Asynchronous Handling: Evaluate how well the code manages asynchronous operations such as callbacks, promises, and async/await, ensuring correctness.
+19. Framework Best Practices: Check if the code adheres to best practices for the specific framework or library used, ensuring compliance with its conventions.
+20. Test Organization & Structure: Assess if tests are well-structured, properly named, and organized correctly, following standard conventions.
+21. Modularity & Reusability: Determine if the code promotes modularity and reusability across different parts of the application.
+22. Component Boundaries: Check if clear component boundaries are established, ensuring proper separation of concerns.
+23. State Management: Evaluate how the component manages state, including proper initialization, updates, and cleanup.
+24. Lifecycle Handling: Assess the proper usage of lifecycle methods or hooks in frameworks such as React (componentDidMount) or Angular (ngOnInit).
+25. Cleanup Handling: Verify if proper unmounting and cleanup mechanisms are implemented to prevent memory leaks or unintended behavior.
+26. Documentation: Determine if the code is well-documented with clear and concise comments that aid understanding.
+27. RESTful API Design: Evaluate RESTful endpoints, checking if they follow proper resource naming, HTTP methods, and REST conventions (return N/A if not applicable).
+28. Dependency Injection: Review the usage of dependency injection, ensuring proper injection methods (constructor, setter, or field injection) and detecting circular dependencies.
 
 Answer in detail for all the prompts!
