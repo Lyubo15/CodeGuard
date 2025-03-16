@@ -1,0 +1,33 @@
+//package com.tu.codeguard.controller.admin;
+//
+//import com.tu.codeguard.dbo.User;
+//import com.tu.codeguard.service.AuthenticationService;
+//import io.swagger.v3.oas.annotations.Operation;
+//import io.swagger.v3.oas.annotations.tags.Tag;
+//import lombok.NonNull;
+//import lombok.RequiredArgsConstructor;
+//import lombok.extern.slf4j.Slf4j;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.*;
+//
+//@Slf4j
+//@RestController
+//@RequiredArgsConstructor
+//@RequestMapping("/auth")
+//@Tag(name = "Auth Controller", description = "Endpoints handling admin auth - register")
+//public class AdminAuthController {
+//
+//    @NonNull
+//    private final AuthenticationService authenticationService;
+//
+//    @Operation(summary = "Endpoint to register the user")
+//    @PostMapping("/register")
+//    public ResponseEntity<User> register(
+//            @RequestParam String username,
+//            @RequestParam String password
+//    ) {
+//        User registeredUser = authenticationService.register(username, password);
+//
+//        return ResponseEntity.ok(registeredUser);
+//    }
+//}

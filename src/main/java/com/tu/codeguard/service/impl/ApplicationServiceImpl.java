@@ -20,6 +20,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void saveApplication(Application application) {
+        log.info("Saving application on db: {}", application);
         ApplicationEntity applicationEntity = Mapper.mapApplicationToEntity(application);
         applicationJpaRepository.save(applicationEntity);
     }

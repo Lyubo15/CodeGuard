@@ -5,7 +5,6 @@ import com.tu.codeguard.dto.Application;
 import com.tu.codeguard.dto.Customer;
 import com.tu.codeguard.enums.PromptOption;
 import com.tu.codeguard.service.*;
-import com.tu.codeguard.service.S3Service;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

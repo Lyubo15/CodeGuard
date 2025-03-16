@@ -1,7 +1,6 @@
-package com.tu.codeguard.service;
+package com.tu.codeguard.service.impl;
 
 import com.tu.codeguard.config.properties.S3Properties;
-import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,10 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.util.zip.ZipInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -41,15 +43,28 @@ public class S3Service {
         log.info("Upload to S3. Key: {}", key);
     }
 
-    public ZipInputStream download(String key) {
+    public String downloadTxtFile(String key) {
         GetObjectRequest objectRequest = GetObjectRequest.builder()
-            .key(key)
-            .bucket(s3Properties.getBucket())
-            .build();
+                .key(key)
+                .bucket(s3Properties.getBucket())
+                .build();
 
-        ResponseInputStream<GetObjectResponse> objectBytes = s3Client.getObject(objectRequest);
+        try (ResponseInputStream<GetObjectResponse> objectBytes = s3Client.getObject(objectRequest);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(objectBytes, StandardCharsets.UTF_8))) {
 
-        log.info("Download from S3. Key: {}", key);
-        return new ZipInputStream(objectBytes);
+            log.info("Downloading TXT file from S3. Key: {}", key);
+
+            // Read file content into a String
+            StringBuilder content = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
+            }
+
+            return content.toString();
+        } catch (IOException e) {
+            log.error("Error downloading TXT file from S3: {}", e.getMessage());
+            throw new RuntimeException("Failed to download file from S3", e);
+        }
     }
 }
