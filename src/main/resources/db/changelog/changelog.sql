@@ -4,7 +4,7 @@
 
 CREATE TABLE customer (
     id VARCHAR PRIMARY KEY,
-    github_name VARCHAR(255) UNIQUE NOT NULL
+    username VARCHAR(255) UNIQUE NOT NULL
 );
 
 CREATE TABLE application (
