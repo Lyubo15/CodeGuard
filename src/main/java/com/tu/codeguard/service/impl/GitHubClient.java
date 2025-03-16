@@ -24,23 +24,28 @@ public class GitHubClient {
     }
 
     public byte[] exportRepository(String owner, String repo) throws GithubExportException {
-        String repoPath = String.format("%s/repos/%s/%s/zipball/main", gitHubApiProperties.getBaseUrl(), owner, repo);
+        String repoPath = String.format("%s/repos/%s/%s/zipball", gitHubApiProperties.getBaseUrl(), owner, repo);
         URI exportProjectURI = UriComponentsBuilder.fromUriString(repoPath).build().toUri();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_OCTET_STREAM));
+        headers.set("Accept", "application/vnd.github+json");
 
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
 
-        ResponseEntity<byte[]> response = restTemplate.exchange(exportProjectURI, HttpMethod.GET, requestEntity, byte[].class);
+        try {
+            ResponseEntity<byte[]> response = restTemplate.exchange(exportProjectURI, HttpMethod.GET, requestEntity, byte[].class);
 
-        if (response.getStatusCode().is2xxSuccessful()) {
-            log.error("Github export succeed. owner: {}, repo: {}", owner, repo);
-            return response.getBody();
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.error("Github export succeed. owner: {}, repo: {}", owner, repo);
+                return response.getBody();
+            } else {
+                log.error("Github export failed. reason: {}, owner: {}, repo: {}", response.getBody(), owner, repo);
+                throw new GithubExportException("Failed to export repository" + repo);
+            }
+        } catch (Exception e) {
+            log.error("Github export failed. reason: {}, owner: {}, repo: {}", e.getMessage(), owner, repo);
+            throw new GithubExportException("Failed to export repository" + repo);
         }
-
-        log.error("Github export failed. reason: {}, owner: {}, repo: {}", response.getBody(), owner, repo);
-        throw new GithubExportException("Failed to export repository" + repo);
     }
 
     private String[] extractOwnerAndRepo(String repositoryUrl) {

@@ -65,10 +65,10 @@ application:
   githubapi:
     baseUrl: https://api.github.com
   s3:
-    bucket: codeguard-ai-analysis-resultss
+    bucket: codeguard-ai-analysis-results
   aws:
-    access-key: AKIAUEXF55VMSZKVBMM4
-    secret-access-key: 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
+    access-key: AKIAUEXF55VMQ2OHGPNI
+    secret-access-key: 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
 
 springdoc:
   swagger-ui:

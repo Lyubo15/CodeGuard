@@ -18,12 +18,40 @@ import org.springframework.context.annotation.Configuration;
 public class OpenAPISwaggerConfiguration {
 
     @Bean
+    GroupedOpenApi publicGroup() {
+        return GroupedOpenApi.builder()
+                .group("Public")
+                .addOpenApiCustomizer(publicApiCustomizer())
+                .pathsToMatch(ApiConstants.API_URL + ApiConstants.PUBLIC_URL + ApiConstants.INCLUDE_ALL_URL)
+                .build();
+    }
+
+    @Bean
     GroupedOpenApi adminGroup() {
         return GroupedOpenApi.builder()
                 .group("Admin")
                 .addOpenApiCustomizer(adminApiCustomizer())
                 .pathsToMatch(ApiConstants.API_URL + ApiConstants.ADMIN_URL + ApiConstants.INCLUDE_ALL_URL)
                 .build();
+    }
+
+    @Bean
+    public OpenApiCustomizer publicApiCustomizer() {
+        String jwt = "JWT";
+
+        return openApi -> {
+            openApi.addSecurityItem(new SecurityRequirement().addList(jwt))
+                    .info(apiInfo().title(Constants.PUBLIC_TITLE))
+                    .getPaths().values().forEach(this::responses);
+
+            openApi.getComponents()
+                    .addSecuritySchemes(jwt, new SecurityScheme()
+                            .type(SecurityScheme.Type.HTTP)
+                            .in(SecurityScheme.In.HEADER)
+                            .scheme("bearer")
+                            .bearerFormat(jwt)
+                            .name(jwt));
+        };
     }
 
     @Bean

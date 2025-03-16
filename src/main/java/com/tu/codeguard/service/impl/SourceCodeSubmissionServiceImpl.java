@@ -67,7 +67,7 @@ public class SourceCodeSubmissionServiceImpl implements SourceCodeSubmissionServ
         uploadAnalysisResultsToS3(key, aiAnalysisResultDTO.getResult().toString());
 
         // Save application to DB
-        Application application = new Application(UUID.randomUUID().toString(), repositoryUrl, "", customer);
+        Application application = new Application(UUID.randomUUID().toString(), repositoryUrl, key, customer);
         applicationService.saveApplication(application);
 
         return aiAnalysisResultDTO;

@@ -12,6 +12,7 @@ public class Constants {
     public static final String CODE_GUARD_MAIL = "support@codeguard.com";
 
     public static final String ADMIN_TITLE = "Code Guard Admin REST API";
+    public static final String PUBLIC_TITLE = "Code Guard Public REST API";
 
     public static final List<String> allowedExtensions = List.of("java", "js", "jsx", "ts", "tsx", "vue", "svelte", "cs", "cshtml", "csx", "py", "kt");
 
