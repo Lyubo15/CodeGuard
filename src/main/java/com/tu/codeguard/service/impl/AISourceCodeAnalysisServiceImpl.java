@@ -25,17 +25,15 @@ public class AISourceCodeAnalysisServiceImpl implements AISourceCodeAnalysisServ
 
     private final ZipService zipService;
     private final AIProviderService aiProviderService;
-   // private final S3Service s3Service;
 
     @Override
     public AIAnalysisResultDTO analyzeSourceCode(
             ZipInputStream zip,
             List<PromptOption> promptOptions,
-            String filename,
             UUID correlationId)
     {
         try (zip) {
-            log.info("Start analyzing source code from file {} with correlationId {}", filename, correlationId);
+            log.info("Start analyzing source code. correlationId {}", correlationId);
             Map<String, String> sourceCode = zipService.readSourceCode(zip);
             String combinedCode = mergeSourceCode(sourceCode);
 
@@ -43,11 +41,11 @@ public class AISourceCodeAnalysisServiceImpl implements AISourceCodeAnalysisServ
                     ? PromptsUtils.combinePromptsFromOptions(promptOptions)
                     : PromptsUtils.getPrompts();
 
-            AIAnalysisResultDTO result = sendToAIWithTokenManagement(combinedCode, prompts, filename, correlationId);
-            log.info("Completed analysis of file {} with correlationId {}", filename, correlationId);
+            AIAnalysisResultDTO result = sendToAIWithTokenManagement(combinedCode, prompts, correlationId);
+            log.info("Completed analysis. correlationId {}", correlationId);
             return result;
         } catch (IOException e) {
-            log.error("Error processing Zip file {} with correlationId {}: {}", filename, correlationId, e.getMessage());
+            log.error("Error processing Zip file. correlationId {}, error: {}", correlationId, e.getMessage());
             throw new FileReadException(e.getMessage());
         }
     }
@@ -67,7 +65,7 @@ public class AISourceCodeAnalysisServiceImpl implements AISourceCodeAnalysisServ
     /**
      * Sends source code to OpenAI while ensuring we stay within token limits.
      */
-    private AIAnalysisResultDTO sendToAIWithTokenManagement(String fullCode, String prompts, String filename, UUID correlationId) {
+    private AIAnalysisResultDTO sendToAIWithTokenManagement(String fullCode, String prompts, UUID correlationId) {
         AIAnalysisResultDTO aiAnalysisResult = AIAnalysisResultDTO.builder()
                 .result(new StringBuilder())
                 .build();
@@ -76,16 +74,16 @@ public class AISourceCodeAnalysisServiceImpl implements AISourceCodeAnalysisServ
 
         if (tokenCount <= aiProviderService.getMaxTokens()) {
             log.info("Sending full code to AI for analysis...");
-            aiAnalysisResult.getResult().append(sendToAI(fullCode, prompts, filename, correlationId));
+            aiAnalysisResult.getResult().append(sendToAI(fullCode, prompts, correlationId));
         } else {
             log.warn("Code exceeds token limit ({} tokens), splitting into chunks...", tokenCount);
             List<String> chunks = splitCodeByTokens(fullCode);
             for (String chunk : chunks) {
-                aiAnalysisResult.getResult().append(sendToAI(chunk, prompts, filename, correlationId)).append("\n\n");
+                aiAnalysisResult.getResult().append(sendToAI(chunk, prompts, correlationId)).append("\n\n");
             }
         }
 
-        log.info("AI analysis completed for file {} and correlationId {}", filename, correlationId);
+        log.info("AI analysis completed. correlationId {}", correlationId);
         return aiAnalysisResult;
     }
 
@@ -120,19 +118,12 @@ public class AISourceCodeAnalysisServiceImpl implements AISourceCodeAnalysisServ
     /**
      * Sends a chunk of source code to OpenAI for review.
      */
-    private String sendToAI(String codeChunk, String prompts, String filename, UUID correlationId) {
+    private String sendToAI(String codeChunk, String prompts, UUID correlationId) {
         try {
-            return aiProviderService.sendMessages(codeChunk, prompts, filename, correlationId);
+            return aiProviderService.sendMessages(codeChunk, prompts, correlationId);
         } catch (Exception e) {
-            log.error("Error sending code to AI for file {} with correlationId {}: {}", filename, correlationId, e.getMessage());
+            log.error("Error sending code to AI. correlationId {}, error: {}", correlationId, e.getMessage());
             return "Error during AI analysis.";
         }
     }
-
-//    private void uploadAnalysisResultsToS3(AISourcecodeAnalysisStartDTO aiSourcecodeAnalysisStartDTO, String analysisResult) {
-//        s3Service.upload(
-//                aiSourcecodeAnalysisStartDTO.getUploadAnalysisKey(),
-//                aiSourcecodeAnalysisStartDTO.getUploadBucketPath(),
-//                analysisResult);
-//    }
 }

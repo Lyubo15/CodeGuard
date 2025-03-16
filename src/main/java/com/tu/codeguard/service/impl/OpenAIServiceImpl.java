@@ -44,8 +44,8 @@ public class OpenAIServiceImpl implements AIProviderService {
     }
 
     @Override
-    public String sendMessages(String message, String prompts, String filename, UUID correlationId) {
-        log.info("Sending the messages to OpenAI for file {} and correlationId {}", filename, correlationId);
+    public String sendMessages(String message, String prompts, UUID correlationId) {
+        log.info("Sending the messages to OpenAI. correlationId {}", correlationId);
         List<ChatMessage> chatMessages = createChatMessages(List.of(message, prompts));
 
         ChatRequest chatRequest = ChatRequest.builder()
@@ -58,7 +58,7 @@ public class OpenAIServiceImpl implements AIProviderService {
         var chatResponse = futureChat.join();
 
         String generatedText = chatResponse.firstContent();
-        log.info("Sending the messages to OpenAI is done for file {} and correlationId {}", filename, correlationId);
+        log.info("Sending the messages to OpenAI is done. correlationId {}", correlationId);
 
         return generatedText;
     }

@@ -38,7 +38,6 @@ public class AdminAISourcecodeAnalysisController {
         return aiSourceCodeAnalysisService.analyzeSourceCode(
                 zipInputStream,
                 promptOptions,
-                file.getOriginalFilename(),
                 UUID.randomUUID()
         );
     }

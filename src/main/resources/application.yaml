@@ -62,6 +62,13 @@ application:
     maxTokens: 128_000
     maxOutputTokens: 16_384
     connectionDuration: 200
+  githubapi:
+    baseUrl: https://api.github.com
+  s3:
+    bucket: codeguard-ai-analysis-resultss
+  aws:
+    access-key: AKIAUEXF55VMSZKVBMM4
+    secret-access-key: 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
 
 springdoc:
   swagger-ui:

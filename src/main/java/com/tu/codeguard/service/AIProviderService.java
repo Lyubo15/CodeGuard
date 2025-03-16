@@ -23,8 +23,7 @@ public interface AIProviderService {
      *
      * @param message       are the message that we want to send to the Provider Model.
      * @param prompts       are the prompts that we want to send to the Provider Model.
-     * @param filename      the file name will be minfied and analyzed
      * @param correlationId    the correlation id we can use to correlate with analysis process
      */
-    String sendMessages(String message, String prompts, String filename, UUID correlationId) throws InterruptedException;
+    String sendMessages(String message, String prompts, UUID correlationId) throws InterruptedException;
 }
