@@ -1,4 +1,4 @@
-package com.tu.codeguard.controller.admin;
+package com.tu.codeguard.controller;
 
 import com.tu.codeguard.dto.AIAnalysisResultDTO;
 import com.tu.codeguard.enums.PromptOption;

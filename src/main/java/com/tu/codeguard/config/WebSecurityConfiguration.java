@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -38,32 +39,46 @@ public class WebSecurityConfiguration {
     };
     private static final String[] AUTH_WHITELIST = {
             "/actuator/**",
-            "/api/auth/login", // Allow JWT login without authentication
+            "/api/public/auth/login", // Allow JWT login without authentication
     };
 
     private final CORSConfigProperties corsConfigProperties;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain swaggerFilterChain(HttpSecurity http) throws Exception {
         return httpWithCORSAndNoCSRFStateless(http)
-                .securityMatcher(ApiConstants.API_URL + ApiConstants.ADMIN_URL + ApiConstants.INCLUDE_ALL_URL)
-                .authorizeHttpRequests(auth ->
-                        auth.requestMatchers(AUTH_WHITELIST).permitAll()
-                                .anyRequest().hasRole(ADMIN_ROLE)
+                .securityMatcher(SWAGGER_LIST)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .anyRequest().hasRole(SWAGGER_ROLE)
                 )
                 .httpBasic(Customizer.withDefaults())
                 .build();
     }
 
     @Bean
-    public SecurityFilterChain publicFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain adminFilterChain(HttpSecurity http, AuthenticationProvider adminAuthProvider) throws Exception {
+        return httpWithCORSAndNoCSRFStateless(http)
+                .securityMatcher(ApiConstants.API_URL + ApiConstants.ADMIN_URL + ApiConstants.INCLUDE_ALL_URL)
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers(AUTH_WHITELIST).permitAll()
+                                .anyRequest().hasRole(ADMIN_ROLE)
+                )
+                .authenticationProvider(adminAuthProvider)
+                .httpBasic(Customizer.withDefaults())
+                .build();
+    }
+
+    @Bean
+    public SecurityFilterChain publicFilterChain(HttpSecurity http, AuthenticationProvider publicAuthProvider) throws Exception {
         return httpWithCORSAndNoCSRFStateless(http)
                 .securityMatcher(ApiConstants.API_URL + ApiConstants.PUBLIC_URL + ApiConstants.INCLUDE_ALL_URL)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(AUTH_WHITELIST).permitAll()
                         .anyRequest().authenticated()
                 )
+                .authenticationProvider(publicAuthProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
