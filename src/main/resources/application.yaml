@@ -43,7 +43,7 @@ application:
       password: pass
   cors:
     allowed:
-      - http://localhost:3000
+      - http://localhost:5173
   management:
     endpoints:
       web:
@@ -58,7 +58,7 @@ application:
     timeout: 30000
   openai:
     token: "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"
-    model: "gpt-4o"
+    model: "gpt-4o-mini"
     maxTokens: 128_000
     maxOutputTokens: 16_384
     connectionDuration: 200

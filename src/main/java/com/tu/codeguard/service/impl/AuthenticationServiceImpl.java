@@ -4,8 +4,6 @@ import com.tu.codeguard.dbo.User;
 import com.tu.codeguard.dbo.UserEntity;
 import com.tu.codeguard.repository.UserRepository;
 import com.tu.codeguard.service.AuthenticationService;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;

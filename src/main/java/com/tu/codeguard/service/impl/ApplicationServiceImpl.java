@@ -2,6 +2,7 @@ package com.tu.codeguard.service.impl;
 
 import com.tu.codeguard.dbo.ApplicationEntity;
 import com.tu.codeguard.dto.Application;
+import com.tu.codeguard.dto.ApplicationDTO;
 import com.tu.codeguard.repository.ApplicationJpaRepository;
 import com.tu.codeguard.service.ApplicationService;
 import com.tu.codeguard.utils.Mapper;
@@ -9,6 +10,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -19,9 +22,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     private final ApplicationJpaRepository applicationJpaRepository;
 
     @Override
+    public List<ApplicationDTO> getAllApplications() {
+        log.info("Retrieving all applications");
+        List<ApplicationEntity> entities = applicationJpaRepository.findAll();
+        return entities.stream().map(Mapper::mapApplicationToApplicationDTO).toList();
+    }
+
+    @Override
     public void saveApplication(Application application) {
         log.info("Saving application on db: {}", application);
         ApplicationEntity applicationEntity = Mapper.mapApplicationToEntity(application);
         applicationJpaRepository.save(applicationEntity);
+    }
+
+    @Override
+    public void deleteApplicationById(String id) {
+        log.info("Deleting application by id: {}", id);
+        applicationJpaRepository.deleteById(id);
     }
 }

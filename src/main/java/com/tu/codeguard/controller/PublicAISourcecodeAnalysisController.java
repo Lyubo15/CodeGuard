@@ -1,7 +1,9 @@
 package com.tu.codeguard.controller;
 
 import com.tu.codeguard.dto.AIAnalysisResultDTO;
+import com.tu.codeguard.dto.ApplicationDTO;
 import com.tu.codeguard.enums.PromptOption;
+import com.tu.codeguard.service.ApplicationService;
 import com.tu.codeguard.service.SourceCodeSubmissionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,6 +24,15 @@ public class PublicAISourcecodeAnalysisController {
     @NonNull
     private final SourceCodeSubmissionService sourceCodeSubmissionService;
 
+    @NonNull
+    private final ApplicationService applicationService;
+
+    @Operation(summary = "Endpoint to retrieve all applications")
+    @GetMapping("/applications")
+    public List<ApplicationDTO> getAllApplications() {
+        return applicationService.getAllApplications();
+    }
+
     @Operation(summary = "Endpoint to analyze source code by AI with dynamic prompts")
     @PostMapping
     public AIAnalysisResultDTO analyseSourcecode(
@@ -29,5 +40,11 @@ public class PublicAISourcecodeAnalysisController {
             @RequestParam List<PromptOption> promptOptions)
     {
         return sourceCodeSubmissionService.analyzeSourceCode(repositoryUrl, promptOptions);
+    }
+
+    @Operation(summary = "Endpoint to delete application")
+    @DeleteMapping("/application/{id}")
+    public void deleteApplication(@PathVariable String id) {
+        applicationService.deleteApplicationById(id);
     }
 }

@@ -3,6 +3,7 @@ package com.tu.codeguard.utils;
 import com.tu.codeguard.dbo.ApplicationEntity;
 import com.tu.codeguard.dbo.CustomerEntity;
 import com.tu.codeguard.dto.Application;
+import com.tu.codeguard.dto.ApplicationDTO;
 import com.tu.codeguard.dto.Customer;
 
 import java.util.ArrayList;
@@ -15,6 +16,14 @@ public class Mapper {
                 application.repositoryUrl(),
                 application.aiResultFilePath(),
                 mapCustomerToEntity(application.customer())
+        );
+    }
+
+    public static ApplicationDTO mapApplicationToApplicationDTO(ApplicationEntity applicationEntity) {
+        return new ApplicationDTO(
+                applicationEntity.getId(),
+                applicationEntity.getCustomer().getUsername(),
+                applicationEntity.getRepositoryUrl()
         );
     }
 
