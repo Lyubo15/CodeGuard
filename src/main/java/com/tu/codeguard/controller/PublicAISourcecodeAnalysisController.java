@@ -33,6 +33,12 @@ public class PublicAISourcecodeAnalysisController {
         return applicationService.getAllApplications();
     }
 
+    @Operation(summary = "Endpoint to retrieve AI result")
+    @GetMapping("/application/{id}")
+    public String getApplicationResult(@PathVariable String id) {
+        return applicationService.getApplicationDetailsById(id);
+    }
+
     @Operation(summary = "Endpoint to analyze source code by AI with dynamic prompts")
     @PostMapping
     public AIAnalysisResultDTO analyseSourcecode(

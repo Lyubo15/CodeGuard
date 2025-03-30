@@ -11,10 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
-import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 import java.util.zip.ZipInputStream;
+
+import static com.tu.codeguard.utils.RepositoryUtils.extractOwnerAndRepo;
 
 @Slf4j
 @Service
@@ -39,10 +40,6 @@ public class SourceCodeSubmissionServiceImpl implements SourceCodeSubmissionServ
     @Override
     public AIAnalysisResultDTO analyzeSourceCode(String repositoryUrl, List<PromptOption> promptOptions) {
         String[] repoParts = extractOwnerAndRepo(repositoryUrl);
-        if (repoParts == null) {
-            throw new IllegalArgumentException("Invalid GitHub repository URL: " + repositoryUrl);
-        }
-
         String owner = repoParts[0];
         String repo = repoParts[1];
 
@@ -70,19 +67,6 @@ public class SourceCodeSubmissionServiceImpl implements SourceCodeSubmissionServ
         applicationService.saveApplication(application);
 
         return aiAnalysisResultDTO;
-    }
-
-    private String[] extractOwnerAndRepo(String repositoryUrl) {
-        try {
-            URI uri = URI.create(repositoryUrl);
-            String[] pathSegments = uri.getPath().split("/");
-            if (pathSegments.length >= 3) {
-                return new String[]{pathSegments[1], pathSegments[2]}; // [username, repository]
-            }
-        } catch (Exception e) {
-            log.error("Error extracting owner and repo from URL: {}", repositoryUrl, e);
-        }
-        return null;
     }
 
     private void uploadAnalysisResultsToS3(String key, String analysisResult) {

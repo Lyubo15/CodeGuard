@@ -20,12 +20,22 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @NonNull
     private final ApplicationJpaRepository applicationJpaRepository;
+    @NonNull
+    private final S3Service s3Service;
 
     @Override
     public List<ApplicationDTO> getAllApplications() {
         log.info("Retrieving all applications");
         List<ApplicationEntity> entities = applicationJpaRepository.findAll();
         return entities.stream().map(Mapper::mapApplicationToApplicationDTO).toList();
+    }
+
+    @Override
+    public String getApplicationDetailsById(String id) {
+        ApplicationEntity entity = applicationJpaRepository.findById(id).orElse(null);
+        if (entity == null) { return null; }
+
+        return s3Service.downloadTxtFile(entity.getAiResultFilePath());
     }
 
     @Override

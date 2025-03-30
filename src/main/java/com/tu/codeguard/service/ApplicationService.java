@@ -13,6 +13,11 @@ public interface ApplicationService {
     List<ApplicationDTO> getAllApplications();
 
     /**
+     * Get application details
+     */
+    String getApplicationDetailsById(String id);
+
+    /**
      * Save application
      *
      * @param application to be saved.
