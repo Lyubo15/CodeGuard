@@ -66,6 +66,7 @@ public class SourceCodeSubmissionServiceImpl implements SourceCodeSubmissionServ
         Application application = new Application(UUID.randomUUID().toString(), repositoryUrl, key, customer);
         applicationService.saveApplication(application);
 
+        aiAnalysisResultDTO.setApplicationId(application.id());
         return aiAnalysisResultDTO;
     }
 

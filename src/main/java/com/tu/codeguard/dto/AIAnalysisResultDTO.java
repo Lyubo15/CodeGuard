@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AIAnalysisResultDTO {
 
+    private String applicationId;
     private StringBuilder result;
 }
