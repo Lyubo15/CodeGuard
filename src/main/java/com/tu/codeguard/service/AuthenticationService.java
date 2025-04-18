@@ -1,6 +1,6 @@
 package com.tu.codeguard.service;
 
-import com.tu.codeguard.dbo.User;
+import com.tu.codeguard.dto.User;
 
 public interface AuthenticationService {
 

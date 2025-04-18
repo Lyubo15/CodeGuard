@@ -1,9 +1,11 @@
 package com.tu.codeguard.service.impl;
 
-import com.tu.codeguard.dbo.User;
+import com.tu.codeguard.dbo.Role;
+import com.tu.codeguard.dto.User;
 import com.tu.codeguard.dbo.UserEntity;
 import com.tu.codeguard.repository.UserRepository;
 import com.tu.codeguard.service.AuthenticationService;
+import com.tu.codeguard.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,14 +23,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final RoleService roleService;
 
     public AuthenticationServiceImpl(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            @Qualifier("authenticationManager") AuthenticationManager authenticationManager) {
+            @Qualifier("authenticationManager") AuthenticationManager authenticationManager, RoleService roleService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.roleService = roleService;
     }
 
     @Override
@@ -37,9 +41,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         UserEntity userEntity;
 
         if (user.isEmpty()) {
-            userEntity = createUser(username, password, "ADMIN");
+            userEntity = createUser(username, password, List.of(roleService.getRole("ROLE_ADMIN")));
         } else {
-            userEntity = createUser(username, password, "USER");
+            userEntity = createUser(username, password, List.of(roleService.getRole("ROLE_USER")));
         }
 
         log.info("Register user. username: {}", username);
@@ -47,12 +51,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return new User(username);
     }
 
-    private UserEntity createUser(String username, String password, String role) {
+    private UserEntity createUser(String username, String password, List<Role> roles) {
         return new UserEntity(
                 UUID.randomUUID().toString(),
                 username,
                 passwordEncoder.encode(password),
-                role
+                roles
         );
     }
 

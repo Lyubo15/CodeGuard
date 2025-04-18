@@ -1,6 +1,6 @@
 package com.tu.codeguard.controller;
 
-import com.tu.codeguard.dbo.User;
+import com.tu.codeguard.dto.User;
 import com.tu.codeguard.dto.AuthenticationDTO;
 import com.tu.codeguard.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;

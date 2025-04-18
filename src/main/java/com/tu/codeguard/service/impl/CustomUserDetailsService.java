@@ -2,13 +2,10 @@ package com.tu.codeguard.service.impl;
 
 import com.tu.codeguard.dbo.UserEntity;
 import com.tu.codeguard.repository.UserRepository;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.util.Collections;
 
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -23,7 +20,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserEntity userEntity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        return new User(userEntity.getUsername(), userEntity.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority(userEntity.getRole())));
+        return new User(userEntity.getUsername(), userEntity.getPassword(), userEntity.getAuthorities());
     }
 }
