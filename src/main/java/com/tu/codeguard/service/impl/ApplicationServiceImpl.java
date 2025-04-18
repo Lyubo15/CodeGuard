@@ -25,7 +25,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public List<ApplicationDTO> getAllApplications() {
-        log.info("Retrieving all applications");
+        log.debug("Retrieving all applications");
         List<ApplicationEntity> entities = applicationJpaRepository.findAll();
         return entities.stream().map(Mapper::mapApplicationToApplicationDTO).toList();
     }
@@ -40,14 +40,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public void saveApplication(Application application) {
-        log.info("Saving application on db: {}", application);
+        log.debug("Saving application on db: {}", application);
         ApplicationEntity applicationEntity = Mapper.mapApplicationToEntity(application);
         applicationJpaRepository.save(applicationEntity);
     }
 
     @Override
     public void deleteApplicationById(String id) {
-        log.info("Deleting application by id: {}", id);
+        log.debug("Deleting application by id: {}", id);
         applicationJpaRepository.deleteById(id);
     }
 }

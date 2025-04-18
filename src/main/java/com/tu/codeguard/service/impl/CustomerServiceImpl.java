@@ -28,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
             return null;
         }
 
-        log.info("Customer found with name {}", customer.getUsername());
+        log.debug("Customer found with name {}", customer.getUsername());
         return Mapper.mapCustomerToDomain(customer);
     }
 
@@ -37,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerEntity customerEntity = new CustomerEntity(UUID.randomUUID().toString(), username, new ArrayList<>());
         customerJpaRepository.save(customerEntity);
 
-        log.info("Customer saved with name {}", customerEntity.getUsername());
+        log.debug("Customer saved with name {}", customerEntity.getUsername());
         return Mapper.mapCustomerToDomain(customerEntity);
     }
 }

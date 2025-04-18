@@ -2,9 +2,12 @@ package com.tu.codeguard.utils;
 
 import com.tu.codeguard.dbo.ApplicationEntity;
 import com.tu.codeguard.dbo.CustomerEntity;
+import com.tu.codeguard.dbo.Role;
+import com.tu.codeguard.dbo.UserEntity;
 import com.tu.codeguard.dto.Application;
 import com.tu.codeguard.dto.ApplicationDTO;
 import com.tu.codeguard.dto.Customer;
+import com.tu.codeguard.dto.User;
 
 import java.util.ArrayList;
 
@@ -39,6 +42,14 @@ public class Mapper {
         return new Customer(
                 customerEntity.getId(),
                 customerEntity.getUsername()
+        );
+    }
+
+    public static User mapUserToDomain(UserEntity userEntity) {
+        return new User(
+                userEntity.getId(),
+                userEntity.getUsername(),
+                userEntity.getAuthorities().stream().map(Role::getAuthority).toList()
         );
     }
 }

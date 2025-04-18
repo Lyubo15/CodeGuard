@@ -1,4 +1,6 @@
 package com.tu.codeguard.dto;
 
-public record User(String username) {
+import java.util.List;
+
+public record User(String id, String username, List<String> roles) {
 }

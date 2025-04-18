@@ -33,7 +33,7 @@ public class AISourceCodeAnalysisServiceImpl implements AISourceCodeAnalysisServ
             UUID correlationId)
     {
         try (zip) {
-            log.info("Start analyzing source code. correlationId {}", correlationId);
+            log.debug("Start analyzing source code. correlationId {}", correlationId);
             Map<String, String> sourceCode = zipService.readSourceCode(zip);
             String combinedCode = mergeSourceCode(sourceCode);
 
@@ -42,7 +42,7 @@ public class AISourceCodeAnalysisServiceImpl implements AISourceCodeAnalysisServ
                     : PromptsUtils.getPrompts();
 
             AIAnalysisResultDTO result = sendToAIWithTokenManagement(combinedCode, prompts, correlationId);
-            log.info("Completed analysis. correlationId {}", correlationId);
+            log.debug("Completed analysis. correlationId {}", correlationId);
             return result;
         } catch (IOException e) {
             log.error("Error processing Zip file. correlationId {}, error: {}", correlationId, e.getMessage());
@@ -73,7 +73,7 @@ public class AISourceCodeAnalysisServiceImpl implements AISourceCodeAnalysisServ
         int tokenCount = aiProviderService.getTokens(fullCode);
 
         if (tokenCount <= aiProviderService.getMaxTokens()) {
-            log.info("Sending full code to AI for analysis...");
+            log.debug("Sending full code to AI for analysis...");
             aiAnalysisResult.getResult().append(sendToAI(fullCode, prompts, correlationId));
         } else {
             log.warn("Code exceeds token limit ({} tokens), splitting into chunks...", tokenCount);

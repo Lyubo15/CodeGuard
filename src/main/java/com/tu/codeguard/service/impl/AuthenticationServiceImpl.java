@@ -3,6 +3,7 @@ package com.tu.codeguard.service.impl;
 import com.tu.codeguard.dbo.Role;
 import com.tu.codeguard.dto.User;
 import com.tu.codeguard.dbo.UserEntity;
+import com.tu.codeguard.exceptions.UsernameAlreadyExistsException;
 import com.tu.codeguard.repository.UserRepository;
 import com.tu.codeguard.service.AuthenticationService;
 import com.tu.codeguard.service.RoleService;
@@ -37,6 +38,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User register(String username, String password) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            log.debug("User already exists");
+            throw new UsernameAlreadyExistsException();
+        }
+
         List<UserEntity> user = userRepository.findAll();
         UserEntity userEntity;
 
@@ -46,9 +52,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             userEntity = createUser(username, password, List.of(roleService.getRole("ROLE_USER")));
         }
 
-        log.info("Register user. username: {}", username);
+        log.debug("Register user. username: {}", username);
         userRepository.save(userEntity);
-        return new User(username);
+        return new User(
+                userEntity.getId(),
+                username,
+                userEntity.getAuthorities().stream().map(Role::getAuthority).toList()
+        );
     }
 
     private UserEntity createUser(String username, String password, List<Role> roles) {
@@ -65,6 +75,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password)
         );
-        log.info("Authentication Successful. username: {}", username);
+        log.debug("Authentication Successful. username: {}", username);
     }
 }

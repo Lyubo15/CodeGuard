@@ -20,6 +20,7 @@ public class RoleServiceImpl implements RoleService {
 
     @PostConstruct
     private void seedRoles() {
+        log.debug("Seeding roles");
         if (roleJpaRepository.findAll().isEmpty()) {
             roleJpaRepository.saveAll(
                     new ArrayList<>() {{
@@ -31,6 +32,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getRole(String role) {
+        log.debug("Getting role {}", role);
         return roleJpaRepository
                 .findAll()
                 .stream()
