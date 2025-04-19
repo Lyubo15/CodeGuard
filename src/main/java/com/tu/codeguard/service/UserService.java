@@ -7,4 +7,8 @@ import java.util.List;
 public interface UserService {
 
     List<User> getAllUsers();
+
+    void grantAdminAccess(String userId);
+
+    void revokeAdminAccess(String userId);
 }
