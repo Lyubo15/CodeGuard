@@ -10,7 +10,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -33,6 +41,13 @@ public class PublicAISourcecodeAnalysisController {
         return applicationService.getAllApplications();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Endpoint to retrieve all deleted applications")
+    @GetMapping("/deleted/applications")
+    public List<ApplicationDTO> getAllDeletedApplications() {
+        return applicationService.getAllDeletedApplications();
+    }
+
     @Operation(summary = "Endpoint to retrieve AI result")
     @GetMapping("/application/{id}")
     public String getApplicationResult(@PathVariable String id) {
@@ -48,9 +63,23 @@ public class PublicAISourcecodeAnalysisController {
         return sourceCodeSubmissionService.analyzeSourceCode(repositoryUrl, promptOptions);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Endpoint to delete application")
     @DeleteMapping("/application/{id}")
     public void deleteApplication(@PathVariable String id) {
         applicationService.deleteApplicationById(id);
+    }
+
+    @Operation(summary = "Endpoint to soft delete application")
+    @DeleteMapping("/application/{id}/soft")
+    public void softDeleteApplication(@PathVariable String id) {
+        applicationService.softDeleteApplicationById(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Endpoint to recover deleted application")
+    @PutMapping("/application/{id}/recover")
+    public void recoverDeletedApplication(@PathVariable String id) {
+        applicationService.recoverDeletedApplicationById(id);
     }
 }

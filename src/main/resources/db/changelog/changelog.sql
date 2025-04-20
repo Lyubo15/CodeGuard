@@ -41,3 +41,7 @@ CREATE TABLE users_user_roles
     CONSTRAINT fk_user_roles_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT fk_user_roles_role FOREIGN KEY (user_role_id) REFERENCES user_role (id) ON DELETE CASCADE
 );
+
+-- changeset codeguard:3
+ALTER TABLE application
+ADD COLUMN deleted BOOLEAN DEFAULT FALSE;

@@ -30,6 +30,9 @@ public class ApplicationEntity {
     @Column(name = "ai_result_file_path")
     private String aiResultFilePath;
 
+    @Column(name = "deleted", nullable = false)
+    private boolean deleted;
+
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     @ToString.Exclude

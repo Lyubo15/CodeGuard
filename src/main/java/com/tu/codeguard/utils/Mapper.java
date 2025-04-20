@@ -18,6 +18,7 @@ public class Mapper {
                 application.id(),
                 application.repositoryUrl(),
                 application.aiResultFilePath(),
+                false,
                 mapCustomerToEntity(application.customer())
         );
     }

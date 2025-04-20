@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -32,15 +33,15 @@ public class S3Service {
 
     public void upload(String key, String content) {
         PutObjectRequest putRequest = PutObjectRequest.builder()
-                .bucket(s3Properties.getBucket())
                 .key(key)
+                .bucket(s3Properties.getBucket())
                 .contentType("text/plain")
                 .build();
 
         RequestBody asyncRequestBody = RequestBody.fromBytes(content.getBytes(UTF_8));
         s3Client.putObject(putRequest, asyncRequestBody);
 
-        log.info("Upload to S3. Key: {}", key);
+        log.debug("Upload to S3. Key: {}", key);
     }
 
     public String downloadTxtFile(String key) {
@@ -52,7 +53,7 @@ public class S3Service {
         try (ResponseInputStream<GetObjectResponse> objectBytes = s3Client.getObject(objectRequest);
              BufferedReader reader = new BufferedReader(new InputStreamReader(objectBytes, StandardCharsets.UTF_8))) {
 
-            log.info("Downloading TXT file from S3. Key: {}", key);
+            log.debug("Downloading TXT file from S3. Key: {}", key);
 
             // Read file content into a String
             StringBuilder content = new StringBuilder();
@@ -66,5 +67,15 @@ public class S3Service {
             log.error("Error downloading TXT file from S3: {}", e.getMessage());
             throw new RuntimeException("Failed to download file from S3", e);
         }
+    }
+
+    public void delete(String key) {
+        DeleteObjectRequest deleteRequest = DeleteObjectRequest.builder()
+                .key(key)
+                .bucket(s3Properties.getBucket())
+                .build();
+
+        s3Client.deleteObject(deleteRequest);
+        log.debug("Deleted file from S3. Key: {}", key);
     }
 }

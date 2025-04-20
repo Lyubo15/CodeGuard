@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> user = userRepository.findById(userId);
 
         if (user.isEmpty()) {
-            throw new EntityNotFoundException("User with id " + userId + " not found");
+            throw new EntityNotFoundException("User with id " + userId + " not found when trying to grant admin access");
         }
 
         Role adminRole = roleService.getRole("ROLE_ADMIN");
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> user = userRepository.findById(userId);
 
         if (user.isEmpty()) {
-            throw new EntityNotFoundException("User with id " + userId + " not found");
+            throw new EntityNotFoundException("User with id " + userId + " not found when trying to revoke admin access");
         }
 
         Role adminRole = roleService.getRole("ROLE_ADMIN");

@@ -13,6 +13,11 @@ public interface ApplicationService {
     List<ApplicationDTO> getAllApplications();
 
     /**
+     * Get all deleted applications
+     */
+    List<ApplicationDTO> getAllDeletedApplications();
+
+    /**
      * Get application details
      */
     String getApplicationDetailsById(String id);
@@ -28,4 +33,14 @@ public interface ApplicationService {
      * Delete application
      */
     void deleteApplicationById(String id);
+
+    /**
+     * Delete application
+     */
+    void softDeleteApplicationById(String id);
+
+    /**
+     * Recover deleted application
+     */
+    void recoverDeletedApplicationById(String id);
 }
