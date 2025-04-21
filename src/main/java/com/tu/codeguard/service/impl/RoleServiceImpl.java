@@ -24,6 +24,7 @@ public class RoleServiceImpl implements RoleService {
         if (roleJpaRepository.findAll().isEmpty()) {
             roleJpaRepository.saveAll(
                     new ArrayList<>() {{
+                        add(new Role(UUID.randomUUID().toString(), "ROLE_SUPER_ADMIN"));
                         add(new Role(UUID.randomUUID().toString(), "ROLE_ADMIN"));
                         add(new Role(UUID.randomUUID().toString(), "ROLE_USER"));
                     }});

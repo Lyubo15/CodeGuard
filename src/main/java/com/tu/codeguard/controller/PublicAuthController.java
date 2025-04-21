@@ -55,7 +55,7 @@ public class PublicAuthController {
         return ResponseEntity.ok(Map.of("token", token));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
     @Operation(summary = "Endpoint to register the user")
     @PostMapping("/register")
     public ResponseEntity<User> register(

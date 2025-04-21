@@ -21,12 +21,12 @@ public class AdminAuthController {
     @NonNull
     private final AuthenticationService authenticationService;
 
-    @Operation(summary = "Endpoint to register the user")
+    @Operation(summary = "Endpoint to register super admin user")
     @PostMapping("/register")
-    public ResponseEntity<User> register(
+    public ResponseEntity<User> registerSuperAdmin(
             @RequestBody AuthenticationDTO authenticationDTO
     ) {
-        User registeredUser = authenticationService.register(
+        User registeredUser = authenticationService.registerSuperAdmin(
                 authenticationDTO.getUsername(), authenticationDTO.getPassword()
         );
 

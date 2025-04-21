@@ -25,21 +25,21 @@ public class PublicUserController {
 
     private final UserService userService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
     @Operation(summary = "Endpoint to retrieve all users")
     @GetMapping
     public List<User> getUsers() {
         return userService.getAllUsers();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(summary = "Grant admin access to user")
     @PutMapping("/{id}/roles/admin")
     public void grantAdminAccess(@PathVariable String id) {
         userService.grantAdminAccess(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @Operation(summary = "Revoke admin access from user")
     @DeleteMapping("/{id}/roles/admin")
     public void revokeAdminAccess(@PathVariable String id) {

@@ -13,6 +13,14 @@ public interface AuthenticationService {
     User register(String username, String password);
 
     /**
+     * Register new super admin user
+     *
+     * @param username the username.
+     * @param password the password
+     */
+    User registerSuperAdmin(String username, String password);
+
+    /**
      * Login new user
      *
      * @param username the username.

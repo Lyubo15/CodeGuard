@@ -41,7 +41,7 @@ public class PublicAISourcecodeAnalysisController {
         return applicationService.getAllApplications();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
     @Operation(summary = "Endpoint to retrieve all deleted applications")
     @GetMapping("/deleted/applications")
     public List<ApplicationDTO> getAllDeletedApplications() {
@@ -63,7 +63,7 @@ public class PublicAISourcecodeAnalysisController {
         return sourceCodeSubmissionService.analyzeSourceCode(repositoryUrl, promptOptions);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
     @Operation(summary = "Endpoint to delete application")
     @DeleteMapping("/application/{id}")
     public void deleteApplication(@PathVariable String id) {
@@ -76,7 +76,7 @@ public class PublicAISourcecodeAnalysisController {
         applicationService.softDeleteApplicationById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")
     @Operation(summary = "Endpoint to recover deleted application")
     @PutMapping("/application/{id}/recover")
     public void recoverDeletedApplication(@PathVariable String id) {

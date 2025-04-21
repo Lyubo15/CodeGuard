@@ -43,17 +43,27 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new UsernameAlreadyExistsException();
         }
 
-        List<UserEntity> user = userRepository.findAll();
-        UserEntity userEntity;
+        UserEntity userEntity = createUser(username, password, List.of(roleService.getRole("ROLE_USER")));
 
-        if (user.isEmpty()) {
-            userEntity = createUser(username, password, List.of(roleService.getRole("ROLE_ADMIN")));
-        } else {
-            userEntity = createUser(username, password, List.of(roleService.getRole("ROLE_USER")));
+        userRepository.save(userEntity);
+        log.debug("Register user. username: {}", username);
+        return new User(
+                userEntity.getId(),
+                username,
+                userEntity.getAuthorities().stream().map(Role::getAuthority).toList()
+        );
+    }
+
+    @Override
+    public User registerSuperAdmin(String username, String password) {
+        if (userRepository.findByUsername(username).isPresent()) {
+            log.debug("User already exists");
+            throw new UsernameAlreadyExistsException();
         }
 
-        log.debug("Register user. username: {}", username);
+        UserEntity userEntity = createUser(username, password, List.of(roleService.getRole("ROLE_SUPER_ADMIN")));
         userRepository.save(userEntity);
+        log.debug("Register super admin user. username: {}", username);
         return new User(
                 userEntity.getId(),
                 username,
