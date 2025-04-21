@@ -60,7 +60,7 @@ public class PublicAISourcecodeAnalysisController {
             @RequestParam String repositoryUrl,
             @RequestParam List<PromptOption> promptOptions)
     {
-        return sourceCodeSubmissionService.analyzeSourceCode(repositoryUrl, promptOptions);
+        return sourceCodeSubmissionService.submitSourceCode(repositoryUrl, promptOptions);
     }
 
     @PreAuthorize("hasRole('ADMIN') or hasRole('SUPER_ADMIN')")

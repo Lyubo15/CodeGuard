@@ -13,6 +13,6 @@ public interface SourceCodeSubmissionService {
      * @param repositoryUrl  repository to be analyzed.
      * @return StringBuilder analysis result.
      */
-    AIAnalysisResultDTO analyzeSourceCode(String repositoryUrl, List<PromptOption> promptOptions);
+    AIAnalysisResultDTO submitSourceCode(String repositoryUrl, List<PromptOption> promptOptions);
 
 }

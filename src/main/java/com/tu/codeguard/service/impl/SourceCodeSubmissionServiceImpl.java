@@ -38,7 +38,7 @@ public class SourceCodeSubmissionServiceImpl implements SourceCodeSubmissionServ
     private final S3Service s3Service;
 
     @Override
-    public AIAnalysisResultDTO analyzeSourceCode(String repositoryUrl, List<PromptOption> promptOptions) {
+    public AIAnalysisResultDTO submitSourceCode(String repositoryUrl, List<PromptOption> promptOptions) {
         String[] repoParts = extractOwnerAndRepo(repositoryUrl);
         String owner = repoParts[0];
         String repo = repoParts[1];
