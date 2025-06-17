@@ -57,7 +57,6 @@ application:
     port: 3310
     timeout: 30000
   openai:
-    token: "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"
     model: "gpt-4o-mini"
     maxTokens: 128_000
     maxOutputTokens: 16_384
@@ -66,9 +65,6 @@ application:
     baseUrl: https://api.github.com
   s3:
     bucket: codeguard-ai-analysis-results
-  aws:
-    access-key: AKIAUEXF55VMQ2OHGPNI
-    secret-access-key: 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
 
 springdoc:
   swagger-ui:

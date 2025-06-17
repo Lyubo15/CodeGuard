@@ -2,9 +2,7 @@ package com.tu.codeguard.utils;
 
 import com.tu.codeguard.enums.PromptOption;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public final class PromptsUtils {
 

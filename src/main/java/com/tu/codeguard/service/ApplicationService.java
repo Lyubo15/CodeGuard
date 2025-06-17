@@ -19,6 +19,8 @@ public interface ApplicationService {
 
     /**
      * Get application details
+     *
+     * @param id of the application
      */
     String getApplicationDetailsById(String id);
 
@@ -31,16 +33,22 @@ public interface ApplicationService {
 
     /**
      * Delete application
+     *
+     * @param id of the application
      */
     void deleteApplicationById(String id);
 
     /**
      * Delete application
+     *
+     * @param id of the application
      */
     void softDeleteApplicationById(String id);
 
     /**
      * Recover deleted application
+     *
+     * @param id of the application
      */
     void recoverDeletedApplicationById(String id);
 }
