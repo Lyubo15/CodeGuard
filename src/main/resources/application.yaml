@@ -66,6 +66,9 @@ application:
     baseUrl: https://api.github.com
   s3:
     bucket: codeguard-ai-analysis-results
+  aws:
+    access-key: ${AWS_ACCESS_KEY_ID}
+    secret-access-key: ${AWS_SECRET_ACCESS_KEY}
 
 springdoc:
   swagger-ui:
