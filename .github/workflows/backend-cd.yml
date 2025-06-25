@@ -39,6 +39,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_ACCESS_TOKEN }}
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Create schema 'codeguard' in database
+        run: |
+          PGPASSWORD=${{ secrets.DATASOURCE_PASSWORD }} psql \
+            -h localhost -p 5332 -U ${{ secrets.DATASOURCE_USERNAME }} \
+            -d codeguard \
+            -c "CREATE SCHEMA IF NOT EXISTS codeguard;"
       - name: Set build number
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
