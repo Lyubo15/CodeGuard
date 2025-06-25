@@ -57,6 +57,7 @@ application:
     port: 3310
     timeout: 30000
   openai:
+    token: ${APPLICATION_OPENAI_TOKEN}
     model: "gpt-4o-mini"
     maxTokens: 128_000
     maxOutputTokens: 16_384
