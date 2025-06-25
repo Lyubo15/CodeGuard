@@ -33,6 +33,14 @@ jobs:
           cache: 'gradle'
       - name: Wait for database to start
         run: sleep 15
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Create schema 'codeguard' in database
+        run: |
+          PGPASSWORD=${{ secrets.DATASOURCE_PASSWORD }} psql \
+            -h localhost -p 5332 -U ${{ secrets.DATASOURCE_USERNAME }} \
+            -d codeguard \
+            -c "CREATE SCHEMA IF NOT EXISTS codeguard;"
       - name: Build and run Unit Tests with Gradle
         run: ./gradlew check --no-daemon --console=plain
         env:
@@ -41,3 +49,6 @@ jobs:
           SPRING_DATASOURCE_PASSWORD: ${{ secrets.DATASOURCE_PASSWORD }}
           SPRING_LIQUIBASE_ENABLED: "false"
           SPRING_JPA_HIBERNATE_DDL_AUTO: "create-drop"
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          APPLICATION_OPENAI_TOKEN: ${{ secrets.APPLICATION_OPENAI_TOKEN }}
