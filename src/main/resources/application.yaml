@@ -44,6 +44,8 @@ application:
   cors:
     allowed:
       - http://localhost:5173
+      - https://www.codeguardai.org
+      - https://codeguardai.org
   management:
     endpoints:
       web:

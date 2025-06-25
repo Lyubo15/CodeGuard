@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://awseb-e-hfkbwh4gtj-stack-awsebrdsdatabase-gmv2wajs32jj.cj4ieeuuy8e1.eu-central-1.rds.amazonaws.com:5432/codeguard
+    url: jdbc:postgresql://awseb-e-abhssmyd3i-stack-awsebrdsdatabase-bhrh6o0hzey4.cj4ieeuuy8e1.eu-central-1.rds.amazonaws.com:5432/codeguard
 #    username: ${DATASOURCE_USERNAME}
 #    password: ${DATASOURCE_PASSWORD}
   liquibase:
-    url: jdbc:postgresql://awseb-e-hfkbwh4gtj-stack-awsebrdsdatabase-gmv2wajs32jj.cj4ieeuuy8e1.eu-central-1.rds.amazonaws.com:5432/codeguard
+    url: jdbc:postgresql://awseb-e-abhssmyd3i-stack-awsebrdsdatabase-bhrh6o0hzey4.cj4ieeuuy8e1.eu-central-1.rds.amazonaws.com:5432/codeguard
 #    user: ${spring.datasource.username}
 #    password: ${spring.datasource.password}
