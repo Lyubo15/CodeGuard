@@ -7,3 +7,6 @@ spring:
     url: jdbc:postgresql://awseb-e-abhssmyd3i-stack-awsebrdsdatabase-bhrh6o0hzey4.cj4ieeuuy8e1.eu-central-1.rds.amazonaws.com:5432/codeguard
 #    user: ${spring.datasource.username}
 #    password: ${spring.datasource.password}
+
+server:
+  forward-headers-strategy: framework

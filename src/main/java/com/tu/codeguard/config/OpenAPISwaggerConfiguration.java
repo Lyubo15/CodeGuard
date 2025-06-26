@@ -2,6 +2,7 @@ package com.tu.codeguard.config;
 
 import com.tu.codeguard.utils.ApiConstants;
 import com.tu.codeguard.utils.Constants;
+import com.tu.codeguard.utils.ProfileChecker;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
@@ -9,13 +10,24 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.filter.ForwardedHeaderFilter;
+
+import java.util.List;
 
 @Configuration
 public class OpenAPISwaggerConfiguration {
+
+    private final ProfileChecker profileChecker;
+
+    public OpenAPISwaggerConfiguration(ProfileChecker profileChecker) {
+        this.profileChecker = profileChecker;
+    }
 
     @Bean
     GroupedOpenApi publicGroup() {
@@ -40,6 +52,10 @@ public class OpenAPISwaggerConfiguration {
         String jwt = "JWT";
 
         return openApi -> {
+            if (profileChecker.isProd()) {
+                openApi.setServers(List.of(new Server().url("https://api.codeguardai.org")));
+            }
+
             openApi.addSecurityItem(new SecurityRequirement().addList(jwt))
                     .info(apiInfo().title(Constants.PUBLIC_TITLE))
                     .getPaths().values().forEach(this::responses);
@@ -59,6 +75,10 @@ public class OpenAPISwaggerConfiguration {
         String basic = "Basic";
 
         return openApi -> {
+            if (profileChecker.isProd()) {
+                openApi.setServers(List.of(new Server().url("https://api.codeguardai.org")));
+            }
+
             openApi.addSecurityItem(new SecurityRequirement().addList(basic))
                     .info(apiInfo().title(Constants.ADMIN_TITLE))
                     .getPaths().values().forEach(this::responses);
@@ -70,6 +90,13 @@ public class OpenAPISwaggerConfiguration {
                             .scheme("basic")
                             .name(basic));
         };
+    }
+
+    @Bean
+    public FilterRegistrationBean<ForwardedHeaderFilter> forwardedHeaderFilter() {
+        FilterRegistrationBean<ForwardedHeaderFilter> bean = new FilterRegistrationBean<>();
+        bean.setFilter(new ForwardedHeaderFilter());
+        return bean;
     }
 
     private void responses(PathItem pathItem) {
