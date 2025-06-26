@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "code-guard-api",
-      "image": "lyubomir15/code-guard-api:25.06.2025.22.21.49",
+      "image": "lyubomir15/code-guard-api:26.06.2025.07.54.15",
       "essential": true,
       "memory": 512,
       "portMappings": [
