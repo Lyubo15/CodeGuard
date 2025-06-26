@@ -46,6 +46,7 @@ application:
       - http://localhost:5173
       - https://www.codeguardai.org
       - https://codeguardai.org
+      - https://api.codeguardai.org
   management:
     endpoints:
       web:
