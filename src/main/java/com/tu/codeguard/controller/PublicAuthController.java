@@ -37,12 +37,6 @@ public class PublicAuthController {
         this.userDetailsService = userDetailsService;
     }
 
-    @Operation(summary = "Test")
-    @GetMapping("/test")
-    public String test() {
-        return "Successfully deployed!";
-    }
-
     @Operation(summary = "Endpoint login the user")
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(
