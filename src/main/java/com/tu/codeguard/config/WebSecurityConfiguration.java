@@ -41,7 +41,6 @@ public class WebSecurityConfiguration {
     private static final String[] AUTH_WHITELIST = {
             "/actuator/**",
             "/api/public/auth/login", // Allow JWT login without authentication
-            "/api/public/auth/test",
     };
 
     private final CORSConfigProperties corsConfigProperties;
